@@ -21,10 +21,11 @@ public class WorkWithCookie {
         driver.manage().deleteCookieNamed(name);
     }
 
-    public Set<Cookie> setCookies(){
+    public Set<Cookie> setCookies() {
         return driver.manage().getCookies();
     }
-    public Cookie getNamed(String s){
+
+    public Cookie getNamed(String s) {
         return driver.manage().getCookieNamed(s);
     }
 }
