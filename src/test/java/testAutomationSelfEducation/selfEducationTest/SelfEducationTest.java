@@ -1,14 +1,19 @@
 package testAutomationSelfEducation.selfEducationTest;
 
+import aquality.selenium.browser.AqualityServices;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import testAutomationSelfEducation.BaseTest;
 import testAutomationSelfEducation.pages.MyProjectPage;
 import testAutomationSelfEducation.pages.ProjectsPage;
 import testAutomationSelfEducation.util.GenerateRandomString;
 import testAutomationSelfEducation.util.ScreenShot;
+import testAutomationSelfEducation.util.testRail.TestRailUtil;
+import testAutomationSelfEducation.util.testRail.testrailClient.APIException;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +28,7 @@ public class SelfEducationTest extends BaseTest {
     ProjectsPage projectsPage = new ProjectsPage(By.xpath("//button[@class='btn btn-xs btn-primary pull-right']"), "button add");
     MyProjectPage myProjectPage = new MyProjectPage(By.xpath("//input[@id='projectName']"), "project Name");
     GenerateRandomString randomName = new GenerateRandomString();
+    TestRailUtil testRailUtil = new TestRailUtil();
     String nameProject = randomName.randomString();
     String myNameProject = "My Best Project " + nameProject;
     String testForMe = "testForMe";
@@ -50,7 +56,7 @@ public class SelfEducationTest extends BaseTest {
     public void getListNextage() {
         getBrowser().getDriver().findElement(By.xpath("//a[text()='Nexage']")).click();
         List<WebElement> tests = getBrowser().getDriver().findElements(By.xpath("//tr"));
-        for (WebElement element:tests) {
+        for (WebElement element : tests) {
             System.out.println(element.getText());
         }
     }
@@ -80,7 +86,7 @@ public class SelfEducationTest extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void addTestInMyProject() throws IOException, URISyntaxException {
+    public void addTestInMyProject() {
         myProjectPage.clickNameMyProject(myNameProject);
         myProjectPage.clickMyTest(testForMe);
         String actualProjectName = myProjectPage.getNameMyProject(myNameProject);
@@ -89,5 +95,23 @@ public class SelfEducationTest extends BaseTest {
         Assert.assertEquals(actualTestName, testForMe);
         String actualEnvironmentName = myProjectPage.getEnvironmentName(localhost);
         Assert.assertEquals(actualEnvironmentName, localhost);
+    }
+
+    @AfterMethod
+    public void checkResult2(ITestResult result) throws IOException, APIException {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            System.out.println("test fell");
+            File file = ((TakesScreenshot) getBrowser().getDriver()).getScreenshotAs(OutputType.FILE);
+            String screenshotBase64 = ((TakesScreenshot)getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
+            testRailUtil.addFelltestrailResult(screenshotBase64);
+
+        }
+        if (result.getStatus() == ITestResult.SUCCESS) {
+            System.out.println("test passed");
+            File file = ((TakesScreenshot) getBrowser().getDriver()).getScreenshotAs(OutputType.FILE);
+            String screenshotBase64 = ((TakesScreenshot) AqualityServices.getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
+            testRailUtil.addPassedtestrailResult(screenshotBase64);
+
+        }
     }
 }
