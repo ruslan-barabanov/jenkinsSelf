@@ -3,8 +3,7 @@ package testAutomationSelfEducation.selfEducationTest;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
+
 import org.testng.annotations.Test;
 import testAutomationSelfEducation.BaseTest;
 import testAutomationSelfEducation.pages.MyProjectPage;
@@ -14,7 +13,7 @@ import testAutomationSelfEducation.util.GenerateRandomString;
 import testAutomationSelfEducation.util.ScreenShot;
 import testAutomationSelfEducation.util.dataBaseUtil.DatabaseHandler;
 import testAutomationSelfEducation.util.testRail.TestRailUtil;
-import testAutomationSelfEducation.util.testRail.testrailClient.APIException;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -102,15 +101,15 @@ public class SelfEducationTest extends BaseTest {
         Assert.assertEquals(actualEnvironmentName, localhost);
     }
 
-    @AfterMethod
-    public void checkResult2(ITestResult result) throws IOException, APIException {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            System.out.println("test fell");
-            testRailUtil.addFelltestrailResult();
-        }
-        if (result.getStatus() == ITestResult.SUCCESS) {
-            System.out.println("test passed");
-            testRailUtil.addPassedtestrailResult();
-        }
-    }
+//    @AfterMethod
+//    public void checkResult2(ITestResult result) throws IOException, APIException {
+//        if (result.getStatus() == ITestResult.FAILURE) {
+//            System.out.println("test fell");
+//            testRailUtil.addFelltestrailResult();
+//        }
+//        if (result.getStatus() == ITestResult.SUCCESS) {
+//            System.out.println("test passed");
+//            testRailUtil.addPassedtestrailResult();
+//        }
+//    }
 }
