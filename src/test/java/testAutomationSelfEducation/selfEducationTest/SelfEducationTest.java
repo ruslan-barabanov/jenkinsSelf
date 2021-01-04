@@ -55,7 +55,7 @@ public class SelfEducationTest extends BaseTest {
         System.out.println(actualText);
     }
 
-    @Test
+    @Test(priority = 4)
     public void getListNexage() throws SQLException, ClassNotFoundException {
         nexagePage.getNexage().click();
         List<WebElement> tests = nexagePage.getNexageTestsUi();
