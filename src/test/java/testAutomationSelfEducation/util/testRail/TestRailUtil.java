@@ -1,9 +1,14 @@
 package testAutomationSelfEducation.util.testRail;
 
 
+import aquality.selenium.browser.AqualityServices;
 import org.json.simple.JSONObject;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import testAutomationSelfEducation.util.testRail.testrailClient.APIClient;
 import testAutomationSelfEducation.util.testRail.testrailClient.APIException;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +17,7 @@ import java.util.Map;
 
 public class TestRailUtil {
 
-    public static void addPassedtestrailResult(String screenshotBase64) throws IOException, APIException {
+    public static void addPassedtestrailResult() throws IOException, APIException {
 
         APIClient client = new APIClient("https://tr.a1qa.com/");
         client.setUser("r.barabanov");
@@ -27,12 +32,12 @@ public class TestRailUtil {
         resObjs.put("comment", "Test Passed");
         res.add(resObjs);
         map.put("results", res);
-
-        JSONObject j = (JSONObject) client.sendPost("add_attachment_to_result/51095", screenshotBase64);
+        File file = ((TakesScreenshot) AqualityServices.getBrowser().getDriver()).getScreenshotAs(OutputType.FILE);
+        String screenshotBase64 = ((TakesScreenshot) AqualityServices.getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
         client.sendPost("add_results/51095", map);
     }
 
-    public static void addFelltestrailResult(String screenshotBase64) throws IOException, APIException {
+    public static void addFelltestrailResult() throws IOException, APIException {
 
         APIClient client = new APIClient("https://tr.a1qa.com/");
         client.setUser("r.barabanov");
@@ -47,8 +52,8 @@ public class TestRailUtil {
         resObjs.put("comment", "Test Failed");
         res.add(resObjs);
         map.put("results", res);
-
-        JSONObject j = (JSONObject) client.sendPost("add_attachment_to_result/51095", screenshotBase64);
+        File file = ((TakesScreenshot) AqualityServices.getBrowser().getDriver()).getScreenshotAs(OutputType.FILE);
+        String screenshotBase64 = ((TakesScreenshot) AqualityServices.getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
         client.sendPost("add_results/51095", map);
     }
 }

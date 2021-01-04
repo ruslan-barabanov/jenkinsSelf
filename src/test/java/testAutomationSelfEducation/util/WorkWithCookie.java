@@ -8,7 +8,6 @@ import java.util.Set;
 public class WorkWithCookie {
     WebDriver driver;
 
-
     public WorkWithCookie(WebDriver driver) {
         this.driver = driver;
     }

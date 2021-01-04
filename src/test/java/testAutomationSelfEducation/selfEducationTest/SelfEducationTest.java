@@ -1,6 +1,5 @@
 package testAutomationSelfEducation.selfEducationTest;
 
-import aquality.selenium.browser.AqualityServices;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -9,15 +8,18 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import testAutomationSelfEducation.BaseTest;
 import testAutomationSelfEducation.pages.MyProjectPage;
+import testAutomationSelfEducation.pages.NexagePage;
 import testAutomationSelfEducation.pages.ProjectsPage;
 import testAutomationSelfEducation.util.GenerateRandomString;
 import testAutomationSelfEducation.util.ScreenShot;
+import testAutomationSelfEducation.util.dataBaseUtil.DatabaseHandler;
 import testAutomationSelfEducation.util.testRail.TestRailUtil;
 import testAutomationSelfEducation.util.testRail.testrailClient.APIException;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -27,8 +29,10 @@ public class SelfEducationTest extends BaseTest {
 
     ProjectsPage projectsPage = new ProjectsPage(By.xpath("//button[@class='btn btn-xs btn-primary pull-right']"), "button add");
     MyProjectPage myProjectPage = new MyProjectPage(By.xpath("//input[@id='projectName']"), "project Name");
+    NexagePage nexagePage = new NexagePage(By.xpath("//a[text()='Nexage']"), "Nexage");
     GenerateRandomString randomName = new GenerateRandomString();
     TestRailUtil testRailUtil = new TestRailUtil();
+    DatabaseHandler databaseHandler = new DatabaseHandler();
     String nameProject = randomName.randomString();
     String myNameProject = "My Best Project " + nameProject;
     String testForMe = "testForMe";
@@ -53,12 +57,13 @@ public class SelfEducationTest extends BaseTest {
     }
 
     @Test
-    public void getListNextage() {
-        getBrowser().getDriver().findElement(By.xpath("//a[text()='Nexage']")).click();
-        List<WebElement> tests = getBrowser().getDriver().findElements(By.xpath("//tr"));
+    public void getListNexage() throws SQLException, ClassNotFoundException {
+        nexagePage.getNexage().click();
+        List<WebElement> tests = nexagePage.getNexageTestsUi();
         for (WebElement element : tests) {
             System.out.println(element.getText());
         }
+        databaseHandler.getNexageTests();
     }
 
     @Test(priority = 2)
@@ -101,17 +106,11 @@ public class SelfEducationTest extends BaseTest {
     public void checkResult2(ITestResult result) throws IOException, APIException {
         if (result.getStatus() == ITestResult.FAILURE) {
             System.out.println("test fell");
-            File file = ((TakesScreenshot) getBrowser().getDriver()).getScreenshotAs(OutputType.FILE);
-            String screenshotBase64 = ((TakesScreenshot)getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
-            testRailUtil.addFelltestrailResult(screenshotBase64);
-
+            testRailUtil.addFelltestrailResult();
         }
         if (result.getStatus() == ITestResult.SUCCESS) {
             System.out.println("test passed");
-            File file = ((TakesScreenshot) getBrowser().getDriver()).getScreenshotAs(OutputType.FILE);
-            String screenshotBase64 = ((TakesScreenshot) AqualityServices.getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
-            testRailUtil.addPassedtestrailResult(screenshotBase64);
-
+            testRailUtil.addPassedtestrailResult();
         }
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ScreenShot {
 
-    public void makeAndSendScreen(String id,String screenshotBase64) throws IOException {
+    public void makeAndSendScreen(String id, String screenshotBase64) throws IOException {
 
         final CloseableHttpClient httpclient = HttpClients.createDefault();
 

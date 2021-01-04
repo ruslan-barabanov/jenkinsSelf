@@ -15,5 +15,4 @@ public class GenerateRandomString {
                 .toString();
         return s;
     }
-
 }
