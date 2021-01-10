@@ -1,1 +1,0 @@
-return window.location.href
