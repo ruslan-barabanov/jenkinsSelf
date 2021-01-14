@@ -25,11 +25,11 @@ public class FluentApi {
 
     public FluentApi() {
     }
+    Properties properties = new Properties();
 
     public String sendPostGetToken() throws IOException {
         final Collection<NameValuePair> params = new ArrayList<>();
 
-        Properties properties = new Properties();
         properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
 
         String requestPost = properties.getProperty("requestPost.path");
@@ -43,14 +43,19 @@ public class FluentApi {
 
     public String sendPostTestId(String myProjecktName, String testForMe) throws IOException, URISyntaxException {
 
+        properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
+        String sid = properties.getProperty("sid.path");
+        String methodName = properties.getProperty("methodName.path");
+        String env = properties.getProperty("env.path");
+
         URIBuilder ub = new URIBuilder();
         ub.setScheme("http").setHost("localhost").
                 setPort(8080).setPath("/api/test/put").
-                setParameter("SID", "2222").
+                setParameter("SID", sid).
                 setParameter("projectName", myProjecktName).
                 setParameter("testName", testForMe).
-                setParameter("methodName", "method").
-                setParameter("env", "localhost");
+                setParameter("methodName", methodName).
+                setParameter("env", env);
         final Content postResultForm = Request.Post(ub.build())
                 .execute().returnContent();
         String token = postResultForm.asString();
@@ -68,6 +73,27 @@ public class FluentApi {
         final List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("testId", id));
         params.add(new BasicNameValuePair("content", "HelloLogTest"));
+        httpPost.setEntity(new UrlEncodedFormEntity(params));
+        try (
+                CloseableHttpResponse response2 = httpclient.execute(httpPost)
+        ) {
+            final HttpEntity entity2 = response2.getEntity();
+            System.out.println(EntityUtils.toString(entity2));
+        }
+        httpclient.close();
+    }
+    public void makeAndSendScreen(String id, String screenshotBase64) throws IOException {
+
+        final CloseableHttpClient httpclient = HttpClients.createDefault();
+        Properties properties = new Properties();
+        properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
+
+        String httpAttachmentPost = properties.getProperty("httpAttachmentPost.path");
+        final HttpPost httpPost = new HttpPost(httpAttachmentPost);
+        final List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("testId", id));
+        params.add(new BasicNameValuePair("content", screenshotBase64));
+        params.add(new BasicNameValuePair("contentType", "image/png"));
         httpPost.setEntity(new UrlEncodedFormEntity(params));
         try (
                 CloseableHttpResponse response2 = httpclient.execute(httpPost)

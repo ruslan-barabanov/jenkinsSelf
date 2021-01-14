@@ -7,7 +7,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import testAutomationSelfEducation.util.FluentApi;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -16,7 +15,7 @@ public abstract class BaseTest {
     protected final IElementFactory elementFactory;
     protected final FluentApi fluentApi = new FluentApi();
 
-    protected BaseTest() throws IOException {
+    protected BaseTest() {
         elementFactory = AqualityServices.getElementFactory();
     }
 

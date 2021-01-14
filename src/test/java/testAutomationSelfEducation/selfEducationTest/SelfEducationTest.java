@@ -11,7 +11,6 @@ import testAutomationSelfEducation.pages.MyProjectPage;
 import testAutomationSelfEducation.pages.NexagePage;
 import testAutomationSelfEducation.pages.ProjectsPage;
 import testAutomationSelfEducation.util.GenerateRandomString;
-import testAutomationSelfEducation.util.ScreenShot;
 import testAutomationSelfEducation.util.dataBaseUtil.DatabaseHandler;
 import testAutomationSelfEducation.util.testRail.TestRailUtil;
 import testAutomationSelfEducation.util.testRail.testrailClient.APIException;
@@ -25,7 +24,6 @@ import java.util.*;
 public class SelfEducationTest extends BaseTest {
     protected SelfEducationTest() throws IOException {
     }
-
     ProjectsPage projectsPage = new ProjectsPage(By.xpath(""), "button add");
     MyProjectPage myProjectPage = new MyProjectPage(By.xpath(""), "project Name");
     NexagePage nexagePage = new NexagePage(By.xpath(""), "Nexage");
@@ -35,11 +33,10 @@ public class SelfEducationTest extends BaseTest {
     String myNameProject = "My Best Project " + nameProject;
     protected static final String testForMe = "testForMe";
     protected static final String localhost = "localhost";
-    ScreenShot screenShot = new ScreenShot();
 
 
     @Test(priority = 1)
-    public void newPostRequestGetToken() throws IOException {
+    public void mainSelfAducationTest() throws IOException, URISyntaxException, SQLException, ClassNotFoundException {
 
         String token = fluentApi.sendPostGetToken();
         System.out.println(token);
@@ -51,26 +48,6 @@ public class SelfEducationTest extends BaseTest {
 
         String actualText = projectsPage.getVersionName().getText();
         System.out.println(actualText);
-    }
-
-    @Test(priority = 4)
-    public void getListNexage() throws SQLException, ClassNotFoundException, IOException {
-        nexagePage.getNexage().click();
-        Set<String> webElementsList = new HashSet<>();
-        List<WebElement> tests = nexagePage.getNexageTestsUi();
-        for (WebElement element : tests) {
-            webElementsList.add(element.getText());
-        }
-        List<String> sortedStringsData = new ArrayList<>(databaseHandler.getNexageTests());
-        List<String> sortedStrings = new ArrayList<>(webElementsList);
-
-        Collections.sort(sortedStrings);
-        Collections.sort(sortedStringsData);
-        System.out.println(sortedStrings.equals(sortedStringsData));
-    }
-
-    @Test(priority = 2)
-    public void addNewProject() throws IOException, URISyntaxException {
 
         projectsPage.getAddButton().click();
         getBrowser().getDriver().switchTo().defaultContent();
@@ -88,11 +65,11 @@ public class SelfEducationTest extends BaseTest {
         fluentApi.sendLogs(id);
         myProjectPage.clickMyTest(testForMe);
         String screenshotBase64 = ((TakesScreenshot) getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
-        screenShot.makeAndSendScreen(id, screenshotBase64);
-    }
+        fluentApi.makeAndSendScreen(id, screenshotBase64);
 
-    @Test(priority = 3)
-    public void addTestInMyProject() {
+        getBrowser().getDriver().navigate().back();
+        getBrowser().getDriver().navigate().back();
+
         myProjectPage.clickNameMyProject(myNameProject);
         myProjectPage.clickMyTest(testForMe);
         String actualProjectName = myProjectPage.getNameMyProject(myNameProject);
@@ -101,8 +78,23 @@ public class SelfEducationTest extends BaseTest {
         Assert.assertEquals(actualTestName, testForMe);
         String actualEnvironmentName = myProjectPage.getEnvironmentName(localhost);
         Assert.assertEquals(actualEnvironmentName, localhost);
-    }
 
+        getBrowser().getDriver().navigate().back();
+        getBrowser().getDriver().navigate().back();
+
+        nexagePage.getNexage().click();
+        Set<String> webElementsList = new HashSet<>();
+        List<WebElement> tests = nexagePage.getNexageTestsUi();
+        for (WebElement element : tests) {
+            webElementsList.add(element.getText());
+        }
+        List<String> sortedStringsData = new ArrayList<>(databaseHandler.getNexageTests());
+        List<String> sortedStrings = new ArrayList<>(webElementsList);
+
+        Collections.sort(sortedStrings);
+        Collections.sort(sortedStringsData);
+        System.out.println(sortedStrings.equals(sortedStringsData));
+    }
     @AfterMethod
     public void checkResult2(ITestResult result) throws IOException, APIException {
         if (result.getStatus() == ITestResult.FAILURE) {

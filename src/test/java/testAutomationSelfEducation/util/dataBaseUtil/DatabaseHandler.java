@@ -1,6 +1,5 @@
 package testAutomationSelfEducation.util.dataBaseUtil;
 
-import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.sql.*;
@@ -26,12 +25,11 @@ public class DatabaseHandler extends Configs {
         dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPassword);
         return dbConnection;
     }
-    @Test
+
     public Set<String> getNexageTests() throws SQLException, ClassNotFoundException, IOException {
-        String insert = "select * from union_reporting.test t \n" +
-                "where t.project_id = 1\n" +
-                "order BY t.start_time DESC \n" +
-                "LIMIT 20;";
+        properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
+
+        String insert = properties.getProperty("insert.path");
         PreparedStatement prst = getDbConnection().prepareStatement(insert);
         prst.execute();
         ResultSet resultSet = prst.getResultSet();

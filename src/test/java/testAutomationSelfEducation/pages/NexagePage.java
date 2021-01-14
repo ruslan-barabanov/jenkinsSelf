@@ -23,6 +23,4 @@ public class NexagePage extends Form {
     public List<WebElement> getNexageTestsUi() {
         return AqualityServices.getBrowser().getDriver().findElements(By.xpath("//td[contains(text(),'com.nexage.tests.')]"));
     }
-
-
 }

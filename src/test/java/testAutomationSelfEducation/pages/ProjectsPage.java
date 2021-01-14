@@ -12,6 +12,9 @@ public class ProjectsPage extends Form {
         super(locator, name);
     }
 
+    private final IButton helpButton = getElementFactory().getButton(By.xpath("//button[contains(text(),'+Add')]"), "button add");
+    private final ITextBox versionName = getElementFactory().getTextBox(By.xpath("//span[text()='Version: 0']"), "version Name");
+
     public IButton getAddButton() {
         return helpButton;
     }
@@ -19,9 +22,5 @@ public class ProjectsPage extends Form {
     public IElement getVersionName() {
         return versionName;
     }
-
-
-    private final IButton helpButton = getElementFactory().getButton(By.xpath("//button[contains(text(),'+Add')]"), "button add");
-    private final ITextBox versionName = getElementFactory().getTextBox(By.xpath("//span[text()='Version: 0']"), "version Name");
 
 }

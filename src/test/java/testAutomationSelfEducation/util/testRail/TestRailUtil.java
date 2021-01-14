@@ -19,13 +19,17 @@ public class TestRailUtil {
         client.setUser(setUser);
         client.setPassword(setPassword);
 
+        String testId = properties.getProperty("testId.path");
+        String statusIdPassed = properties.getProperty("statusIdPassed.path");
+        String commentPassed = properties.getProperty("commentPassed.path");
+
         Map<String, List<Map<String, Object>>> map = new HashMap<>();
         List<Map<String, Object>> res = new ArrayList<>();
         Map<String, Object> resObjs = new HashMap<>();
 
-        resObjs.put("test_id", "58923230");
-        resObjs.put("status_id", 1);
-        resObjs.put("comment", "Test Passed");
+        resObjs.put("test_id", testId);
+        resObjs.put("status_id", statusIdPassed);
+        resObjs.put("comment", commentPassed);
         res.add(resObjs);
         map.put("results", res);
 
@@ -43,13 +47,17 @@ public class TestRailUtil {
         client.setUser(setUser);
         client.setPassword(setPassword);
 
+        String testId = properties.getProperty("testId.path");
+        String statusIdFail= properties.getProperty("statusIdFail.path");
+        String commentFail = properties.getProperty("commentFail.path");
+
         Map<String, List<Map<String, Object>>> map = new HashMap<>();
         List<Map<String, Object>> res = new ArrayList<>();
         Map<String, Object> resObjs = new HashMap<>();
 
-        resObjs.put("test_id", "58923230");
-        resObjs.put("status_id", 5);
-        resObjs.put("comment", "Test Failed");
+        resObjs.put("test_id", testId);
+        resObjs.put("status_id", statusIdFail);
+        resObjs.put("comment", commentFail);
         res.add(resObjs);
         map.put("results", res);
 
