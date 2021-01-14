@@ -43,7 +43,6 @@ public class SelfEducationTest extends BaseTest {
 
         String token = fluentApi.sendPostGetToken();
         System.out.println(token);
-
         Cookie actualTokenCookie = new Cookie("tokenCookie", token);
         getBrowser().getDriver().manage().addCookie(actualTokenCookie);
         Cookie expectedTokenCookie = getBrowser().getDriver().manage().getCookieNamed("tokenCookie");
