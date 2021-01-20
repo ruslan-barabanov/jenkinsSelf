@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-public class DatabaseHandler extends Configs {
+public class DatabaseHandler{
     Connection dbConnection;
     Set<String> dbMethodNames = new HashSet<>();
     private Properties properties = new Properties();
@@ -18,6 +18,10 @@ public class DatabaseHandler extends Configs {
 
         String dbUser = properties.getProperty("dbUser.path");
         String dbPassword = properties.getProperty("dbPassword.path");
+
+        String dbHost = properties.getProperty("dbHost.path");;
+        String dbPort = properties.getProperty("dbPort.path");
+        String dbName = properties.getProperty("dbName.path");;
 
         String connectionString = "jdbc:mysql://" + dbHost + ":"
                 + dbPort + "/" + dbName;

@@ -12,7 +12,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
@@ -47,10 +46,13 @@ public class FluentApi {
         String sid = properties.getProperty("sid.path");
         String methodName = properties.getProperty("methodName.path");
         String env = properties.getProperty("env.path");
-
+        String host = properties.getProperty("host.path");
+        String port = properties.getProperty("port.path");
         URIBuilder ub = new URIBuilder();
-        ub.setScheme("http").setHost("localhost").
-                setPort(8080).setPath("/api/test/put").
+        ub.setScheme("http").
+                setHost(host).
+                setPort(Integer.parseInt(port)).
+                setPath("/api/test/put").
                 setParameter("SID", sid).
                 setParameter("projectName", myProjecktName).
                 setParameter("testName", testForMe).
@@ -68,11 +70,12 @@ public class FluentApi {
         properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
 
         String httpPostPath = properties.getProperty("httpPostPath.path");
+        String content = properties.getProperty("content.path");
 
         final HttpPost httpPost = new HttpPost(httpPostPath);
         final List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("testId", id));
-        params.add(new BasicNameValuePair("content", "HelloLogTest"));
+        params.add(new BasicNameValuePair("content", content));
         httpPost.setEntity(new UrlEncodedFormEntity(params));
         try (
                 CloseableHttpResponse response2 = httpclient.execute(httpPost)
@@ -89,11 +92,13 @@ public class FluentApi {
         properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
 
         String httpAttachmentPost = properties.getProperty("httpAttachmentPost.path");
+        String contentType = properties.getProperty("contentType.path");
+
         final HttpPost httpPost = new HttpPost(httpAttachmentPost);
         final List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("testId", id));
         params.add(new BasicNameValuePair("content", screenshotBase64));
-        params.add(new BasicNameValuePair("contentType", "image/png"));
+        params.add(new BasicNameValuePair("contentType", contentType));
         httpPost.setEntity(new UrlEncodedFormEntity(params));
         try (
                 CloseableHttpResponse response2 = httpclient.execute(httpPost)

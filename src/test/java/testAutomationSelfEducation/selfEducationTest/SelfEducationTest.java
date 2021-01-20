@@ -2,7 +2,6 @@ package testAutomationSelfEducation.selfEducationTest;
 
 import org.openqa.selenium.*;
 import org.testng.Assert;
-
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -22,8 +21,9 @@ import java.util.*;
 
 
 public class SelfEducationTest extends BaseTest {
-    protected SelfEducationTest() throws IOException {
+    protected SelfEducationTest() {
     }
+
     ProjectsPage projectsPage = new ProjectsPage(By.xpath(""), "button add");
     MyProjectPage myProjectPage = new MyProjectPage(By.xpath(""), "project Name");
     NexagePage nexagePage = new NexagePage(By.xpath(""), "Nexage");
@@ -31,8 +31,8 @@ public class SelfEducationTest extends BaseTest {
     DatabaseHandler databaseHandler = new DatabaseHandler();
     String nameProject = randomName.randomString();
     String myNameProject = "My Best Project " + nameProject;
-    protected static final String testForMe = "testForMe";
-    protected static final String localhost = "localhost";
+    protected static final String TEST_FOR_ME = "testForMe";
+    protected static final String LOCALHOST = "localhost";
 
 
     @Test(priority = 1)
@@ -60,10 +60,10 @@ public class SelfEducationTest extends BaseTest {
         Assert.assertEquals(myNameProject, actualName);
         myProjectPage.clickNameMyProject(myNameProject);
 
-        String id = fluentApi.sendPostTestId(actualName, testForMe);
+        String id = fluentApi.sendPostTestId(actualName, TEST_FOR_ME);
         System.out.println(id);
         fluentApi.sendLogs(id);
-        myProjectPage.clickMyTest(testForMe);
+        myProjectPage.clickMyTest(TEST_FOR_ME);
         String screenshotBase64 = ((TakesScreenshot) getBrowser().getDriver()).getScreenshotAs(OutputType.BASE64);
         fluentApi.makeAndSendScreen(id, screenshotBase64);
 
@@ -71,13 +71,13 @@ public class SelfEducationTest extends BaseTest {
         getBrowser().getDriver().navigate().back();
 
         myProjectPage.clickNameMyProject(myNameProject);
-        myProjectPage.clickMyTest(testForMe);
+        myProjectPage.clickMyTest(TEST_FOR_ME);
         String actualProjectName = myProjectPage.getNameMyProject(myNameProject);
         Assert.assertEquals(actualProjectName, myNameProject);
-        String actualTestName = myProjectPage.getNameMyTest(testForMe);
-        Assert.assertEquals(actualTestName, testForMe);
-        String actualEnvironmentName = myProjectPage.getEnvironmentName(localhost);
-        Assert.assertEquals(actualEnvironmentName, localhost);
+        String actualTestName = myProjectPage.getNameMyTest(TEST_FOR_ME);
+        Assert.assertEquals(actualTestName, TEST_FOR_ME);
+        String actualEnvironmentName = myProjectPage.getEnvironmentName(LOCALHOST);
+        Assert.assertEquals(actualEnvironmentName, LOCALHOST);
 
         getBrowser().getDriver().navigate().back();
         getBrowser().getDriver().navigate().back();
@@ -95,6 +95,7 @@ public class SelfEducationTest extends BaseTest {
         Collections.sort(sortedStringsData);
         System.out.println(sortedStrings.equals(sortedStringsData));
     }
+
     @AfterMethod
     public void checkResult2(ITestResult result) throws IOException, APIException {
         if (result.getStatus() == ITestResult.FAILURE) {

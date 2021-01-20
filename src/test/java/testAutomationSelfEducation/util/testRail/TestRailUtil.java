@@ -10,12 +10,13 @@ public class TestRailUtil {
 
     public static void addPassedtestrailResult() throws IOException, APIException {
         Properties properties = new Properties();
-        APIClient client = new APIClient("https://tr.a1qa.com/");
         properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
 
         String setUser = properties.getProperty("testRailSetUser.path");
         String setPassword = properties.getProperty("testRailSetPassword.path");
+        String testrailClient = properties.getProperty("testrailClient.path");
 
+        APIClient client = new APIClient(testrailClient);
         client.setUser(setUser);
         client.setPassword(setPassword);
 
@@ -38,12 +39,13 @@ public class TestRailUtil {
 
     public static void addFelltestrailResult() throws IOException, APIException {
         Properties properties = new Properties();
-        APIClient client = new APIClient("https://tr.a1qa.com/");
         properties.load(ClassLoader.getSystemResourceAsStream("selfEducation.properties"));
+
 
         String setUser = properties.getProperty("testRailSetUser.path");
         String setPassword = properties.getProperty("testRailSetPassword.path");
-
+        String testrailClient = properties.getProperty("testrailClient.path");
+        APIClient client = new APIClient(testrailClient);
         client.setUser(setUser);
         client.setPassword(setPassword);
 

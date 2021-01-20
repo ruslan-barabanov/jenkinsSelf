@@ -13,7 +13,7 @@ public class ProjectsPage extends Form {
     }
 
     private final IButton helpButton = getElementFactory().getButton(By.xpath("//button[contains(text(),'+Add')]"), "button add");
-    private final ITextBox versionName = getElementFactory().getTextBox(By.xpath("//span[text()='Version: 0']"), "version Name");
+    private final ITextBox versionName = getElementFactory().getTextBox(By.xpath("//p[contains(text(),'Reporting')]/span"), "version Name");
 
     public IButton getAddButton() {
         return helpButton;
