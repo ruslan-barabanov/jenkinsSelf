@@ -6,6 +6,7 @@ import aquality.selenium.elements.interfaces.IElementFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import testAutomationSelfEducation.util.FluentApi;
+
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -18,9 +19,11 @@ public abstract class BaseTest {
     protected BaseTest() {
         elementFactory = AqualityServices.getElementFactory();
     }
+
     protected Browser getBrowser() {
         return AqualityServices.getBrowser();
     }
+
     @BeforeMethod
     protected void beforeMethod() throws IOException {
         Properties properties = new Properties();
@@ -36,7 +39,4 @@ public abstract class BaseTest {
             AqualityServices.getBrowser().quit();
         }
     }
-
-
-
 }

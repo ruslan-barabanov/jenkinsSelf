@@ -13,7 +13,6 @@ import testAutomationSelfEducation.util.GenerateRandomString;
 import testAutomationSelfEducation.util.dataBaseUtil.DatabaseHandler;
 import testAutomationSelfEducation.util.testRail.TestRailUtil;
 import testAutomationSelfEducation.util.testRail.testrailClient.APIException;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
